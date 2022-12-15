@@ -5,6 +5,7 @@ export const analyticsSlice = createSlice({
   initialState: {
     tableData: [],
     appData: [],
+    inactiveCols: [],
   },
   reducers: {
     setTableData2: (state) => {
@@ -19,6 +20,9 @@ export const analyticsSlice = createSlice({
     },
     setTableData: (state, action) => {
       state.tableData = action.payload;
+    },
+    setInactiveCols: (state, action) => {
+      state.inactiveCols = action.payload; //set the payload first and then send to redux
     },
   },
 });

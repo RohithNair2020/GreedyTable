@@ -1,5 +1,12 @@
 .App {
   display: flex;
   justify-content: center;
-  padding: 60px;
+  flex-direction: column;
+  padding: 20px 60px 60px;
+  gap: 30px;
+}
+
+.greedy-logo {
+  width: 250px;
+  height: 50px;
 }

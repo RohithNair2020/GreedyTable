@@ -7,6 +7,11 @@ function App() {
   return (
     <Provider store={store}>
       <div className="App">
+        <img
+          className="greedy-logo"
+          src="/greedyLogo.png"
+          alt="Greedy Game Logo"
+        />
         <AnalyticsBoard></AnalyticsBoard>
       </div>
     </Provider>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   getStringFromObject,
   isArrayValidAndNotEmpty,
@@ -10,13 +10,36 @@ import {
 import "./tableComponent.css";
 
 const TableComponent = (props) => {
-  const { schema, data, appData, hideColumns } = props;
+  const { schema, data, appData, hideColumns, totalRows } = props;
+  const totalPages = Math.ceil(data.length / 10);
+  const [page, setPage] = useState(1);
+  // const [currentPageData, setCurrentPageData] = useState([]);
 
   const getAppName = (appId) => {
     const requiredApp = appData.filter(
       (appDetails) => appDetails.app_id === appId
     );
     return requiredApp.app_name;
+  };
+
+  const decrementPage = () => {
+    if (page > 1) {
+      setPage((prev) => prev - 1);
+    }
+  };
+
+  const incrementPage = () => {
+    if (page < totalPages) setPage((prev) => prev + 1);
+  };
+
+  const paginatedData = () => {
+    console.log("data to paginate", data);
+    let paginatedData = [];
+    for (let i = (page - 1) * 10; i < (page - 1) * 10 + 10; i++) {
+      paginatedData.push(data[i]);
+    }
+    console.log("paginated", paginatedData);
+    return paginatedData;
   };
 
   const textToDisplay = (column, data) => {
@@ -27,33 +50,37 @@ const TableComponent = (props) => {
       day: "numeric",
     };
     text = getStringFromObject(column.find, data);
-    switch (column.type) {
-      case "date":
-        text = new Date(text);
-        text = text.toLocaleDateString("en-GB", options);
-        break;
+    if (isObjectValidAndNotEmpty(data)) {
+      switch (column.type) {
+        case "date":
+          text = new Date(text);
+          text = text.toLocaleDateString("en-GB", options);
+          break;
 
-      case "number":
-        text = makeNumber(text);
-        break;
+        case "number":
+          text = makeNumber(text);
+          break;
 
-      case "app":
-        const requiredApp = appData.filter((app) => app.app_id === data.app_id);
-        if (isArrayValidAndNotEmpty(requiredApp)) {
-          text = getStringFromObject("app_name", requiredApp[0]);
-        }
-        break;
+        case "app":
+          const requiredApp = appData.filter(
+            (app) => app.app_id === data.app_id
+          );
+          if (isArrayValidAndNotEmpty(requiredApp)) {
+            text = getStringFromObject("app_name", requiredApp[0]);
+          }
+          break;
 
-      case "currency":
-        text = makeCurrency(text);
-        break;
+        case "currency":
+          text = makeCurrency(text);
+          break;
 
-      case "percentage":
-        text = makePercentage(text);
-        break;
+        case "percentage":
+          text = makePercentage(text);
+          break;
 
-      default:
-        text = text;
+        default:
+          text = text;
+      }
     }
     return text;
   };
@@ -81,7 +108,7 @@ const TableComponent = (props) => {
         </thead>
         <tbody>
           {isArrayValidAndNotEmpty(data) &&
-            data.map((row, rowIndex) => (
+            paginatedData(data).map((row, rowIndex) => (
               <tr key={2 * rowIndex}>
                 {schema.map((column, index) => {
                   if (isObjectValidAndNotEmpty(column)) {
@@ -100,6 +127,28 @@ const TableComponent = (props) => {
             ))}
         </tbody>
       </table>
+      <div className="pagination-footer">
+        <hr className="footer-line"></hr>
+        <div className="pagination-row">
+          <div className="pagination-button-group">
+            <button
+              onClick={decrementPage}
+              className="pagination-button"
+              disabled={page === 1}
+            >
+              <bold>&#60;</bold>
+            </button>
+            <strong>{page}</strong>
+            <button
+              onClick={incrementPage}
+              className="pagination-button"
+              disabled={page === totalPages}
+            >
+              <bold>&#62;</bold>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

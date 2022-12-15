@@ -4,13 +4,11 @@ import SettingsComponent from "../SettingsComponent/SettingsComponent";
 import TableComponent from "../TableComponent/TableComponent";
 import axios from "axios";
 import TuneIcon from "@mui/icons-material/Tune";
-import { Collapse } from "@mui/material";
+import { Collapse, TextField } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { setAppData, setTableData } from "./analyticsSlice";
 import NoDataComponent from "../NoDataComponent/NoDataComponent";
-// import { AdapterDayjs } from "@mui/x-date-pickers-pro/AdapterDayjs";
-// import { LocalizationProvider } from "@mui/x-date-pickers-pro";
-// import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
+import DateRangeFilter from "../DateRangeFilter/DateRangeFilter";
 
 const AnalyticsBoard = () => {
   //redux
@@ -21,8 +19,11 @@ const AnalyticsBoard = () => {
 
   const [schema, setSchema] = useState([]);
   const [hiddenColumns, setHiddenColumns] = useState([]);
-  const [dateRange, setDateRange] = useState(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [dateRange, setDateRange] = useState({
+    start: "2021-05-01",
+    end: "2021-05-03",
+  });
 
   const fetchAnalyticsSchema = useCallback(async () => {
     try {
@@ -33,12 +34,14 @@ const AnalyticsBoard = () => {
     }
   }, []);
 
-  const fetchData = useCallback(async () => {
+  const fetchData = async () => {
+    console.log("fetch dates", dateRange.start, dateRange.end);
     try {
       const fetchedData = await axios.get(
-        "https://go-dev.greedygame.com/v3/dummy/report?startDate=2021-05-01&endDate=2021-05-03"
+        `https://go-dev.greedygame.com/v3/dummy/report?startDate=${dateRange.start}&endDate=${dateRange.end}`
       );
       const rows = fetchedData.data.data;
+      console.log("date rows", rows);
       rows.map((row) => {
         row.fill_rate = row.requests / row.responses;
         row.ctr = row.clicks / row.impressions;
@@ -47,7 +50,7 @@ const AnalyticsBoard = () => {
     } catch (err) {
       console.log(err);
     }
-  }, []);
+  };
 
   const handleSchemaChange = (newSchema) => {
     setSchema(newSchema);
@@ -75,9 +78,23 @@ const AnalyticsBoard = () => {
     }
   });
 
+  const handleDateChange = (startDate, endDate) => {
+    console.log("received dates", startDate, endDate);
+    setDateRange({
+      start: startDate,
+      end: endDate,
+    });
+  };
+
+  console.log("my dates", dateRange);
+
   const toggleSettings = () => {
     setSettingsOpen((prevState) => !prevState);
   };
+
+  useEffect(() => {
+    fetchData();
+  }, [dateRange]);
 
   useEffect(() => {
     fetchAnalyticsSchema();
@@ -87,27 +104,12 @@ const AnalyticsBoard = () => {
   return (
     <div className="analytics-container glass">
       <header>
-        <h4>Analytics</h4>
+        <h2>Analytics</h2>
       </header>
       <div className="date-and-settings">
-        {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <Typography sx={{ mt: 2, mb: 1 }}>1 calendar </Typography>
-        <DateRangePicker
-          calendars={1}
-          value={value}
-          onChange={(newValue) => {
-            setValue(newValue);
-          }}
-          renderInput={(startProps, endProps) => (
-            <React.Fragment>
-              <TextField {...startProps} />
-              <Box sx={{ mx: 2 }}> to </Box>
-              <TextField {...endProps} />
-            </React.Fragment>
-          )}
-        />
-        </LocalizationProvider> */}
-        {/* <input type="date" /> */}
+        {/* //! ///////////////////////////////// */}
+        <DateRangeFilter onDatesChange={handleDateChange} dates={dateRange} />
+        {/* //! ///////////////////////////////// */}
         <button className="settings-btn" onClick={toggleSettings}>
           <TuneIcon></TuneIcon>
           Settings
@@ -130,10 +132,6 @@ const AnalyticsBoard = () => {
       ) : (
         <NoDataComponent />
       )}
-      {/* <p>add redux</p>
-      <p>add date filtering</p>
-      <p>add filters</p>
-      <p>add sorting</p> */}
     </div>
   );
 };
