@@ -35,7 +35,7 @@ const AnalyticsBoard = () => {
   const fetchData = useCallback(async () => {
     try {
       const fetchedData = await axios.get(
-        "http://go-dev.greedygame.com/v3/dummy/report?startDate=2021-05-01&endDate=2021-05-03"
+        "https://go-dev.greedygame.com/v3/dummy/report?startDate=2021-05-01&endDate=2021-05-03"
       );
       const rows = fetchedData.data.data;
       rows.map((row) => {
@@ -65,7 +65,7 @@ const AnalyticsBoard = () => {
   const fetchAppData = useCallback(async () => {
     try {
       const fetchedAppData = await axios.get(
-        "http://go-dev.greedygame.com/v3/dummy/apps"
+        "https://go-dev.greedygame.com/v3/dummy/apps"
       );
       const appData = fetchedAppData.data.data;
       dispatch(setAppData(appData));
