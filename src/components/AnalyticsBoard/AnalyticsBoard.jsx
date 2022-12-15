@@ -7,6 +7,7 @@ import TuneIcon from "@mui/icons-material/Tune";
 import { Collapse } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { setAppData, setTableData } from "./analyticsSlice";
+import NoDataComponent from "../NoDataComponent/NoDataComponent";
 // import { AdapterDayjs } from "@mui/x-date-pickers-pro/AdapterDayjs";
 // import { LocalizationProvider } from "@mui/x-date-pickers-pro";
 // import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
@@ -119,14 +120,17 @@ const AnalyticsBoard = () => {
           onColumnsEdit={handleColumnsEdit}
         />
       </Collapse>
-      <TableComponent
-        schema={schema}
-        data={tableData}
-        appData={appData}
-        hideColumns={hiddenColumns}
-      />
+      {tableData.length ? (
+        <TableComponent
+          schema={schema}
+          data={tableData}
+          appData={appData}
+          hideColumns={hiddenColumns}
+        />
+      ) : (
+        <NoDataComponent />
+      )}
       {/* <p>add redux</p>
-      <p>add no data found</p>
       <p>add date filtering</p>
       <p>add filters</p>
       <p>add sorting</p> */}
