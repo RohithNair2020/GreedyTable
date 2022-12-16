@@ -6,7 +6,9 @@
 
 .date-and-settings {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
+  gap: 10px;
 }
 
 .settings-btn {
@@ -17,7 +19,6 @@
   box-sizing: border-box;
   color: #fff;
   cursor: pointer;
-  font-family: Montserrat, sans-serif;
   font-size: 0.9em;
   padding: 10px 30px;
   text-align: center;

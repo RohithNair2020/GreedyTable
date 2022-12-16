@@ -7,7 +7,6 @@
   color: white;
   border-collapse: collapse;
   font-size: 0.8em;
-  min-width: 800px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
   border-radius: 5px;
   background-image: linear-gradient(#0dccea, #0d70ea);
@@ -22,7 +21,6 @@
 }
 
 .table-container thead tr {
-  /* text-align: center; */
   background: rgba(255, 255, 255, 0.4);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
@@ -36,7 +34,6 @@
 
 .table-container td {
   padding: 7px 15px;
-  /* text-align: center; */
 }
 
 .table-container th:first-of-type {
@@ -63,6 +60,7 @@
 }
 
 .table {
+  table-layout: fixed;
   width: 100%;
 }
 
@@ -94,7 +92,6 @@
 }
 
 .footer-line {
-  /* margin-top: 10px; */
   border: none;
   border-bottom: 1px solid rgb(255, 255, 255, 0.5);
 }
