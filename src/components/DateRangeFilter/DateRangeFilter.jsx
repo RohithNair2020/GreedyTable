@@ -25,6 +25,7 @@ const DateRangeFilter = (props) => {
     const sDate = new Date(startDate);
     const eDate = new Date(endDate);
     if (eDate.getTime() >= sDate.getTime()) {
+      console.log("date change allowed");
       onDatesChange(startDate, endDate);
     }
   }, [startDate, endDate]);
@@ -37,7 +38,6 @@ const DateRangeFilter = (props) => {
         name="start-date"
         value={startDate}
         error={validateDate()}
-        defaultValue="2021-05-24"
         size="small"
         onChange={handleDatesChange}
         InputLabelProps={{
@@ -60,7 +60,6 @@ const DateRangeFilter = (props) => {
         error={validateDate()}
         size="small"
         onChange={handleDatesChange}
-        defaultValue="2021-05-30"
         InputLabelProps={{
           shrink: true,
         }}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   getStringFromObject,
   isArrayValidAndNotEmpty,
@@ -27,6 +27,10 @@ const TableComponent = (props) => {
       setPage((prev) => prev - 1);
     }
   };
+
+  useEffect(() => {
+    setPage(1);
+  }, [data]);
 
   const incrementPage = () => {
     if (page < totalPages) setPage((prev) => prev + 1);
@@ -134,7 +138,7 @@ const TableComponent = (props) => {
               className="pagination-button"
               disabled={page === 1}
             >
-              <bold>&#60;</bold>
+              <b>&#60;</b>
             </button>
             <strong>{page}</strong>
             <button
@@ -142,7 +146,7 @@ const TableComponent = (props) => {
               className="pagination-button"
               disabled={page === totalPages}
             >
-              <bold>&#62;</bold>
+              <b>&#62;</b>
             </button>
           </div>
         </div>
