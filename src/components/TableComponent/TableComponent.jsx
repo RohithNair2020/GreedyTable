@@ -13,7 +13,6 @@ const TableComponent = (props) => {
   const { schema, data, appData, hideColumns, totalRows } = props;
   const totalPages = Math.ceil(data.length / 10);
   const [page, setPage] = useState(1);
-  // const [currentPageData, setCurrentPageData] = useState([]);
 
   const getAppName = (appId) => {
     const requiredApp = appData.filter(
@@ -40,6 +39,7 @@ const TableComponent = (props) => {
     let paginatedData = [];
     for (let i = (page - 1) * 10; i < (page - 1) * 10 + 10; i++) {
       paginatedData.push(data[i]);
+      if (i + 1 === data.length) break;
     }
     return paginatedData;
   };
@@ -51,7 +51,9 @@ const TableComponent = (props) => {
       month: "long",
       day: "numeric",
     };
-    text = getStringFromObject(column.find, data);
+    if (isObjectValidAndNotEmpty(data)) {
+      text = getStringFromObject(column.find, data);
+    }
     if (isObjectValidAndNotEmpty(data)) {
       switch (column.type) {
         case "date":
@@ -110,23 +112,29 @@ const TableComponent = (props) => {
         </thead>
         <tbody>
           {isArrayValidAndNotEmpty(data) &&
-            paginatedData(data).map((row, rowIndex) => (
-              <tr key={2 * rowIndex}>
-                {schema.map((column, index) => {
-                  if (isObjectValidAndNotEmpty(column)) {
-                    if (
-                      !hideColumns.some((hiddenIndex) => hiddenIndex === index)
-                    ) {
-                      return (
-                        <td key={column.id} className={column.align}>
-                          {textToDisplay(column, row)}
-                        </td>
-                      );
-                    }
-                  }
-                })}
-              </tr>
-            ))}
+            paginatedData(data).map((row, rowIndex) => {
+              if (isObjectValidAndNotEmpty(row)) {
+                return (
+                  <tr key={2 * rowIndex}>
+                    {schema.map((column, index) => {
+                      if (isObjectValidAndNotEmpty(column)) {
+                        if (
+                          !hideColumns.some(
+                            (hiddenIndex) => hiddenIndex === index
+                          )
+                        ) {
+                          return (
+                            <td key={column.id} className={column.align}>
+                              {textToDisplay(column, row)}
+                            </td>
+                          );
+                        }
+                      }
+                    })}
+                  </tr>
+                );
+              }
+            })}
         </tbody>
       </table>
       <div className="pagination-footer">

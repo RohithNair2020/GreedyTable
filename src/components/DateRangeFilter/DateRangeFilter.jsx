@@ -25,7 +25,6 @@ const DateRangeFilter = (props) => {
     const sDate = new Date(startDate);
     const eDate = new Date(endDate);
     if (eDate.getTime() >= sDate.getTime()) {
-      console.log("date change allowed");
       onDatesChange(startDate, endDate);
     }
   }, [startDate, endDate]);

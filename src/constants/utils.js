@@ -23,7 +23,7 @@ export const getStringFromObject = (string, obj, defaultValue = "") =>
   lodash.get(obj, string, defaultValue);
 
 export const makeCurrency = (value) => {
-  return numbro(value).formatCurrency({ mantissa: 2 });
+  return numbro(Number(value)).formatCurrency({ mantissa: 2 });
 };
 
 export const makeNumber = (value) => {
