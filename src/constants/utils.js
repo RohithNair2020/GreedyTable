@@ -27,11 +27,12 @@ export const makeCurrency = (value) => {
 };
 
 export const makeNumber = (value) => {
-  return numbro(value).format({
+  const formatedNum = numbro(value).format({
     totalLength: 3,
     average: true,
     spaceSeparated: true,
   });
+  return formatedNum.toUpperCase();
 };
 
 export const makePercentage = (value) => {

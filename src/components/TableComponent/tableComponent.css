@@ -3,7 +3,7 @@
   padding: 20px;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 420px;
+  min-height: 400px;
   color: white;
   border-collapse: collapse;
   font-size: 0.8em;
@@ -41,10 +41,12 @@
 
 .table-container th:first-of-type {
   border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
 }
 
 .table-container th:last-of-type {
   border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
 .table-container tbody tr {
@@ -92,7 +94,7 @@
 }
 
 .footer-line {
-  margin-top: 10px;
+  /* margin-top: 10px; */
   border: none;
   border-bottom: 1px solid rgb(255, 255, 255, 0.5);
 }

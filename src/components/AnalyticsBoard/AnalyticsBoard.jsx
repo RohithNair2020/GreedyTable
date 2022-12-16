@@ -35,13 +35,11 @@ const AnalyticsBoard = () => {
   }, []);
 
   const fetchData = async () => {
-    console.log("fetch dates", dateRange.start, dateRange.end);
     try {
       const fetchedData = await axios.get(
         `https://go-dev.greedygame.com/v3/dummy/report?startDate=${dateRange.start}&endDate=${dateRange.end}`
       );
       const rows = fetchedData.data.data;
-      console.log("date rows", rows);
       rows.map((row) => {
         row.fill_rate = row.requests / row.responses;
         row.ctr = row.clicks / row.impressions;
@@ -79,14 +77,11 @@ const AnalyticsBoard = () => {
   });
 
   const handleDateChange = (startDate, endDate) => {
-    console.log("received dates", startDate, endDate);
     setDateRange({
       start: startDate,
       end: endDate,
     });
   };
-
-  console.log("my dates", dateRange);
 
   const toggleSettings = () => {
     setSettingsOpen((prevState) => !prevState);
@@ -107,9 +102,7 @@ const AnalyticsBoard = () => {
         <h2>Analytics</h2>
       </header>
       <div className="date-and-settings">
-        {/* //! ///////////////////////////////// */}
         <DateRangeFilter onDatesChange={handleDateChange} dates={dateRange} />
-        {/* //! ///////////////////////////////// */}
         <button className="settings-btn" onClick={toggleSettings}>
           <TuneIcon></TuneIcon>
           Settings

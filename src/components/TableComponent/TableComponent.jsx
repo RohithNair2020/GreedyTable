@@ -33,12 +33,10 @@ const TableComponent = (props) => {
   };
 
   const paginatedData = () => {
-    console.log("data to paginate", data);
     let paginatedData = [];
     for (let i = (page - 1) * 10; i < (page - 1) * 10 + 10; i++) {
       paginatedData.push(data[i]);
     }
-    console.log("paginated", paginatedData);
     return paginatedData;
   };
 
